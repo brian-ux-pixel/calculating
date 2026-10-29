@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>會計學 Ch2 葉淑玲老師期中考必勾題【財務報表純實戰練習系統】</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen pb-16">
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- TOP HEADER -->
+  <header class="bg-emerald-950 text-white border-b border-emerald-900 sticky top-0 z-40 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-400 to-amber-500 flex items-center justify-center text-emerald-950 shadow-md">
+          <i class="ph-bold ph-chart-bar text-2xl"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-base sm:text-lg font-black tracking-wide">會計學 Ch2 期中考勾話題庫【財務報表實戰測驗】</h1>
+            <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-400 text-emerald-950">Ch2 專屬題庫</span>
+          </div>
+          <p class="text-xs text-emerald-200">
+            涵蓋：E2-2, E2-3, E2-4, E2-5, E2-9, E2-12, E2-14, P2-1（恆等式推導 / 分類資產負債表 / 損益表與保留盈餘）
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center space-x-2">
+        <button onclick="window.openCh2FormulaModal()" class="px-3 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-amber-300 text-xs font-bold flex items-center space-x-1 border border-emerald-600 transition">
+          <i class="ph-bold ph-book-open"></i>
+          <span>Ch2 報表勾稽公式卡</span>
+        </button>
+        <button onclick="window.resetAllCh2Questions()" class="px-3 py-1.5 rounded-lg bg-rose-900/60 hover:bg-rose-800 text-rose-200 text-xs font-bold flex items-center space-x-1 border border-rose-700 transition">
+          <i class="ph-bold ph-arrow-counter-clockwise"></i>
+          <span>重置所有作答</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sub Navigation Tabs for Chapter 2 -->
+    <div class="bg-emerald-900/90 px-4 border-t border-emerald-800 overflow-x-auto">
+      <div class="max-w-7xl mx-auto flex space-x-1 text-xs font-bold py-1.5">
+        <button class="nav-tab px-3 py-1.5 rounded-md text-amber-300 bg-emerald-950" data-target="tab-e22" onclick="window.switchCh2Tab('tab-e22')">E2-2 恆等式缺額</button>
+        <button class="nav-tab px-3 py-1.5 rounded-md text-emerald-200 hover:text-white" data-target="tab-e23" onclick="window.switchCh2Tab('tab-e23')">E2-3 交易要素影響</button>
+        <button class="nav-tab px-3 py-1.5 rounded-md text-emerald-200 hover:text-white" data-target="tab-e24" onclick="window.switchCh2Tab('tab-e24')">E2-4 跨期綜合恆等式</button>
+        <button class="nav-tab px-3 py-1.5 rounded-md text-emerald-200 hover:text-white" data-target="tab-e25" onclick="window.switchCh2Tab('tab-e25')">E2-5 權益要素倒推</button>
+        <button class="nav-tab px-3 py-1.5 rounded-md text-emerald-200 hover:text-white" data-target="tab-e29" onclick="window.switchCh2Tab('tab-e29')">E2-9 損益表與EPS</button>
+        <button class="nav-tab px-3 py-1.5 rounded-md text-emerald-200 hover:text-white" data-target="tab-e212" onclick="window.switchCh2Tab('tab-e212')">E2-12 跨年保留盈餘</button>
+        <button class="nav-tab px-3 py-1.5 rounded-md text-emerald-200 hover:text-white" data-target="tab-e214" onclick="window.switchCh2Tab('tab-e214')">E2-14 報表勾稽淨利</button>
+        <button class="nav-tab px-3 py-1.5 rounded-md text-emerald-200 hover:text-white" data-target="tab-p21" onclick="window.switchCh2Tab('tab-p21')">P2-1 分類資產負債大題</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 mt-6">
+
+    <!-- ======================================================== -->
+    <!-- TAB 1: E2-2 Accounting Equation                          -->
+    <!-- ======================================================== -->
+    <section id="tab-e22" class="ch2-section space-y-4">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="border-b border-slate-200 pb-4 mb-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-xs">Exercises 2-2</span>
+            <h2 class="text-lg font-black text-slate-900">會計恆等式缺額計算 (Accounting Equation Missing Amounts)</h2>
+          </div>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+            <strong>課本原文：</strong> Compute the missing amounts for the following three companies.<br/>
+            <strong>核心觀念：</strong> $\text{Total Assets} = \text{Total Liabilities} + \text{Equity}$。其中資產項目包含 Cash、Accounts Receivable、Land；負債包含 Accounts Payable、Mortgage Payable。
+          </p>
+        </div>
+
+        <div class="overflow-x-auto my-4">
+          <table class="w-full text-xs font-mono border border-slate-300 rounded-xl overflow-hidden">
+            <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-300">
+              <tr>
+                <th class="py-2.5 px-3 text-left font-sans">科目項目 (Account Items)</th>
+                <th class="py-2.5 px-3 text-right">Johnson Company</th>
+                <th class="py-2.5 px-3 text-right">Best Company</th>
+                <th class="py-2.5 px-3 text-right">Coury Company</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 bg-white">
+              <tr>
+                <td class="py-2 px-3 text-slate-600 font-sans">Cash (現金) [資產]</td>
+                <td class="py-2 px-3 text-right">$11,500</td>
+                <td class="py-2 px-3 text-right">$5,800</td>
+                <td class="py-2 px-3 text-right">$17,000</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-slate-600 font-sans">Accounts receivable (應收帳款) [資產]</td>
+                <td class="py-2 px-3 text-right">5,500</td>
+                <td class="py-2 px-3 text-right">11,000</td>
+                <td class="py-2 px-3 text-right">11,750</td>
+              </tr>
+              <tr class="bg-amber-50/50">
+                <td class="py-2 px-3 text-slate-800 font-sans font-bold">Land (土地) [資產]</td>
+                <td class="py-2 px-3 text-right font-bold text-indigo-700">48,500</td>
+                <td class="py-2 px-3 text-right">
+                  <input type="number" id="ans-e22-best-land" placeholder="請填寫 ?" class="w-24 text-right bg-white border border-amber-300 rounded p-1 font-bold text-amber-900" />
+                </td>
+                <td class="py-2 px-3 text-right font-bold text-indigo-700">41,000</td>
+              </tr>
+              <tr class="bg-slate-50 border-t-2 border-slate-300 font-bold text-emerald-800">
+                <td class="py-2 px-3 font-sans">總資產合計 (Total Assets)</td>
+                <td class="py-2 px-3 text-right">$65,500</td>
+                <td class="py-2 px-3 text-right" id="val-e22-best-ta">-</td>
+                <td class="py-2 px-3 text-right">$69,750</td>
+              </tr>
+              <tr class="bg-amber-50/50">
+                <td class="py-2 px-3 text-slate-800 font-sans font-bold">Accounts payable (應付帳款) [負債]</td>
+                <td class="py-2 px-3 text-right">
+                  <input type="number" id="ans-e22-johnson-ap" placeholder="請填寫 ?" class="w-24 text-right bg-white border border-amber-300 rounded p-1 font-bold text-amber-900" />
+                </td>
+                <td class="py-2 px-3 text-right font-bold text-indigo-700">3,500</td>
+                <td class="py-2 px-3 text-right font-bold text-indigo-700">16,000</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-slate-600 font-sans">Mortgage payable (抵押借款) [負債]</td>
+                <td class="py-2 px-3 text-right">37,500</td>
+                <td class="py-2 px-3 text-right">19,000</td>
+                <td class="py-2 px-3 text-right">32,250</td>
+              </tr>
+              <tr class="bg-amber-50/50">
+                <td class="py-2 px-3 text-slate-800 font-sans font-bold">Equity (權益) [權益]</td>
+                <td class="py-2 px-3 text-right font-bold text-indigo-700">22,000</td>
+                <td class="py-2 px-3 text-right font-bold text-indigo-700">14,500</td>
+                <td class="py-2 px-3 text-right">
+                  <input type="number" id="ans-e22-coury-eq" placeholder="請填寫 ?" class="w-24 text-right bg-white border border-amber-300 rounded p-1 font-bold text-amber-900" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="e22-feedback" class="hidden p-3 rounded-xl text-xs font-bold"></div>
+
+        <div class="mt-4 pt-4 border-t border-slate-200 flex items-center justify-between">
+          <button onclick="window.gradeE22()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md transition">
+            檢查填空答案 (Check E2-2)
+          </button>
+          <button onclick="window.revealE22()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+            顯示推導過程與正解
+          </button>
+        </div>
+
+        <div id="detail-e22" class="hidden mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5 leading-relaxed">
+          <div class="font-bold text-slate-900">【E2-2 計算步驟詳解】</div>
+          <p>1. <strong>Johnson Co. 應付帳款 (A/P)</strong>：總資產 = $11,500 + 5,500 + 48,500 = $65,500。依恆等式 $65,500 = \text{A/P} + 37,500 + 22,000 \Rightarrow \mathbf{\text{A/P} = \$6,000}$</p>
+          <p>2. <strong>Best Co. 土地 (Land)</strong>：負債加權益 = 3,500 + 19,000 + 14,500 = $37,000（等於總資產）。土地 = $37,000 - 5,800 - 11,000 = \mathbf{\$20,200}$</p>
+          <p>3. <strong>Coury Co. 權益 (Equity)</strong>：總資產 = 17,000 + 11,750 + 41,000 = $69,750。負債 = 16,000 + 32,250 = $48,250。權益 = $69,750 - 48,250 = \mathbf{\$21,500}$</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 2: E2-3 Transaction Impact                           -->
+    <!-- ======================================================== -->
+    <section id="tab-e23" class="ch2-section hidden space-y-4">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="border-b border-slate-200 pb-4 mb-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-xs">Exercises 2-3</span>
+            <h2 class="text-lg font-black text-slate-900">分析交易對資產、負債與權益之影響 (Analyze Transaction Effects)</h2>
+          </div>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+            <strong>課本情境：</strong> Georgia Corporation 在 5 月份發生了 8 筆交易。請為每一筆交易選出它對會計恆等式要素的增減代號 (a) ~ (g)。
+          </p>
+        </div>
+
+        <div class="space-y-3.5" id="e23-list">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between">
+          <button onclick="window.gradeE23()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md transition">
+            檢查答案 (Check E2-3)
+          </button>
+          <button onclick="window.revealE23()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+            顯示完整標準代號與解析
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 3: E2-4 Comprehensive Equation                       -->
+    <!-- ======================================================== -->
+    <section id="tab-e24" class="ch2-section hidden space-y-4">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="border-b border-slate-200 pb-4 mb-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-xs">Exercises 2-4</span>
+            <h2 class="text-lg font-black text-slate-900">跨年度擴充會計恆等式推導 (Comprehensive Accounting Equation)</h2>
+          </div>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+            <strong>課本條件：</strong> 假設無其他業主投資或股利分派（$\text{Ending Equity} = \text{Beginning Equity} + \text{Revenues} - \text{Expenses}$）。請推算下列三家公司的缺漏金額。
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-4">
+          <!-- Davis Co -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-3">
+            <div class="font-bold text-sm text-slate-900 border-b pb-2">Davis Company</div>
+            <div>
+              <span class="text-slate-500 block">期初資產 $360 = 負債 $280 + 期初權益 (?)</span>
+              <input type="number" id="ans-e24-davis-eq1" placeholder="期初權益 ?" class="w-full mt-1 bg-white border border-slate-300 rounded p-1.5 font-bold" />
+            </div>
+            <div>
+              <span class="text-slate-500 block">收入 $80 - 費用 $100 ➔ 期末權益 (?)</span>
+              <input type="number" id="ans-e24-davis-eq2" placeholder="期末權益 ?" class="w-full mt-1 bg-white border border-slate-300 rounded p-1.5 font-bold" />
+            </div>
+            <div>
+              <span class="text-slate-500 block">期末資產 $380 = 期末負債 (?) + 期末權益</span>
+              <input type="number" id="ans-e24-davis-l2" placeholder="期末負債 ?" class="w-full mt-1 bg-white border border-slate-300 rounded p-1.5 font-bold" />
+            </div>
+          </div>
+
+          <!-- Conaton Co -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-3">
+            <div class="font-bold text-sm text-slate-900 border-b pb-2">Conaton Company</div>
+            <div>
+              <span class="text-slate-500 block">期初資產 (?) = 負債 $460 + 權益 $620</span>
+              <input type="number" id="ans-e24-conaton-a1" placeholder="期初資產 ?" class="w-full mt-1 bg-white border border-slate-300 rounded p-1.5 font-bold" />
+            </div>
+            <div>
+              <span class="text-slate-500 block">權益由 $620 變 $720，費用 $116 ➔ 收入 (?)</span>
+              <input type="number" id="ans-e24-conaton-rev" placeholder="2022 收入 ?" class="w-full mt-1 bg-white border border-slate-300 rounded p-1.5 font-bold" />
+            </div>
+            <div>
+              <span class="text-slate-500 block">期末資產 (?) = 負債 $520 + 權益 $720</span>
+              <input type="number" id="ans-e24-conaton-a2" placeholder="期末資產 ?" class="w-full mt-1 bg-white border border-slate-300 rounded p-1.5 font-bold" />
+            </div>
+          </div>
+
+          <!-- Seipke Co -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-3">
+            <div class="font-bold text-sm text-slate-900 border-b pb-2">Seipke Company</div>
+            <div>
+              <span class="text-slate-500 block">期初資產 $230 = 期初負債 (?) + 權益 $150</span>
+              <input type="number" id="ans-e24-seipke-l1" placeholder="期初負債 ?" class="w-full mt-1 bg-white border border-slate-300 rounded p-1.5 font-bold" />
+            </div>
+            <div>
+              <span class="text-slate-500 block">期末資產 $310 = 負債 $90 + 期末權益 (?)</span>
+              <input type="number" id="ans-e24-seipke-eq2" placeholder="期末權益 ?" class="w-full mt-1 bg-white border border-slate-300 rounded p-1.5 font-bold" />
+            </div>
+            <div>
+              <span class="text-slate-500 block">權益 $150 變 $220，收入 $400 ➔ 費用 (?)</span>
+              <input type="number" id="ans-e24-seipke-exp" placeholder="2022 費用 ?" class="w-full mt-1 bg-white border border-slate-300 rounded p-1.5 font-bold" />
+            </div>
+          </div>
+        </div>
+
+        <div id="e24-feedback" class="hidden p-3 rounded-xl text-xs font-bold"></div>
+
+        <div class="mt-4 pt-4 border-t border-slate-200 flex items-center justify-between">
+          <button onclick="window.gradeE24()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md transition">
+            核對計算答案 (Check E2-4)
+          </button>
+          <button onclick="window.revealE24()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+            顯示完整公式與正解
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 4: E2-5 Computing Elements of Equity                 -->
+    <!-- ======================================================== -->
+    <section id="tab-e25" class="ch2-section hidden space-y-4">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="border-b border-slate-200 pb-4 mb-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-xs">Exercises 2-5</span>
+            <h2 class="text-lg font-black text-slate-900">權益要素倒推（保留盈餘與營業收入）(Computing Elements of Equity)</h2>
+          </div>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+            <strong>課本數據：</strong><br/>
+            • 1月1日：Current assets $15,000 | Other assets $240,000 | Liabilities $125,000 | Capital stock $70,000 | Retained earnings $60,000<br/>
+            • 12月31日：Current assets $25,000 | Other assets $220,000 | Liabilities $85,000 | Capital stock increased by $20,000<br/>
+            • 本期發生：Expenses = $55,000；Dividends paid = $9,000。
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+            <label class="block text-xs font-bold text-slate-700">1. 12月31日之保留盈餘 Retained Earnings ($)</label>
+            <p class="text-[11px] text-slate-500">先算 12/31 總資產與總負債，利用資產負債恆等式求出：</p>
+            <input type="number" id="ans-e25-re" placeholder="輸入金額..." class="w-full bg-white border border-slate-300 rounded p-2 text-sm font-mono font-bold" />
+            <div id="fb-e25-re" class="hidden text-xs font-bold"></div>
+          </div>
+
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+            <label class="block text-xs font-bold text-slate-700">2. 本期營業收入 Revenues for the period ($)</label>
+            <p class="text-[11px] text-slate-500">利用：期初 R/E + Revenues - Expenses - Dividends = 期末 R/E：</p>
+            <input type="number" id="ans-e25-rev" placeholder="輸入金額..." class="w-full bg-white border border-slate-300 rounded p-2 text-sm font-mono font-bold" />
+            <div id="fb-e25-rev" class="hidden text-xs font-bold"></div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
+          <button onclick="window.gradeE25()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md transition">
+            核對答案 (Check E2-5)
+          </button>
+          <button onclick="window.revealE25()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+            顯示推導詳解
+          </button>
+        </div>
+
+        <div id="detail-e25" class="hidden mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5">
+          <div class="font-bold text-slate-900">【E2-5 標準解析】</div>
+          <p>1. <strong>期末總資產</strong> = 25,000 + 220,000 = $245,000。期末負債 = $85,000。期末股本 = 70,000 + 20,000 = $90,000。<br/>
+             因此：$245,000 = 85,000 + 90,000 + \text{Ending R/E} \Rightarrow \mathbf{\text{Ending R/E} = \$70,000}$</p>
+          <p>2. <strong>營業收入</strong>：60,000 + Revenues - 55,000 - 9,000 = 70,000 $\Rightarrow$ Revenues - 4,000 = 70,000 $\Rightarrow \mathbf{\text{Revenues} = \$74,000}$</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 5: E2-9 Comprehensive Income & EPS                   -->
+    <!-- ======================================================== -->
+    <section id="tab-e29" class="ch2-section hidden space-y-4">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="border-b border-slate-200 pb-4 mb-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-xs">Exercises 2-9</span>
+            <h2 class="text-lg font-black text-slate-900">綜合損益表指標與每股盈餘 (Comprehensive Income & EPS)</h2>
+          </div>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+            <strong>課本營運數據：</strong> Revenues: $335,000 | Supplies expense: $95,000 | Salaries expense: $120,000 | Rent expense: $10,000 | Administrative expense: $16,000<br/>
+            <strong>所得稅率：</strong> 稅前淨利之 30% | <strong>流通在外股數：</strong> 25,000 股（其他綜合損益為 0）。
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+            <label class="block text-xs font-bold text-slate-700 mb-1">1. 稅前淨利 (Income before tax)</label>
+            <input type="number" id="ans-e29-ebt" placeholder="Revenues - Expenses..." class="w-full bg-white border border-slate-300 rounded p-2 text-xs font-mono font-bold" />
+            <div id="fb-e29-ebt" class="hidden text-[11px] font-bold mt-1"></div>
+          </div>
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+            <label class="block text-xs font-bold text-slate-700 mb-1">2. 所得稅費用 (Tax expense 30%)</label>
+            <input type="number" id="ans-e29-tax" placeholder="税前淨利 × 30%..." class="w-full bg-white border border-slate-300 rounded p-2 text-xs font-mono font-bold" />
+            <div id="fb-e29-tax" class="hidden text-[11px] font-bold mt-1"></div>
+          </div>
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+            <label class="block text-xs font-bold text-slate-700 mb-1">3. 本期淨利 (Net income)</label>
+            <input type="number" id="ans-e29-ni" placeholder="税前 - 所得稅..." class="w-full bg-white border border-slate-300 rounded p-2 text-xs font-mono font-bold" />
+            <div id="fb-e29-ni" class="hidden text-[11px] font-bold mt-1"></div>
+          </div>
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+            <label class="block text-xs font-bold text-slate-700 mb-1">4. 每股盈餘 EPS ($)</label>
+            <input type="number" step="0.01" id="ans-e29-eps" placeholder="淨利 ÷ 25,000股..." class="w-full bg-white border border-slate-300 rounded p-2 text-xs font-mono font-bold text-emerald-700" />
+            <div id="fb-e29-eps" class="hidden text-[11px] font-bold mt-1"></div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
+          <button onclick="window.gradeE29()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md transition">
+            核對答案 (Check E2-9)
+          </button>
+          <button onclick="window.revealE29()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+            顯示計算步驟
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 6: E2-12 Retained Earnings Computations             -->
+    <!-- ======================================================== -->
+    <section id="tab-e212" class="ch2-section hidden space-y-4">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="border-b border-slate-200 pb-4 mb-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-xs">Exercises 2-12</span>
+            <h2 class="text-lg font-black text-slate-900">跨年度保留盈餘推算 (Retained Earnings Computations)</h2>
+          </div>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+            <strong>課本情境：</strong> Shadow Price Corporation 在 2021/12/31 擁有：資產 $700,000、負債 $210,000、股本 $320,000。<br/>
+            2022 年度：收入 $520,000、總費用 $390,000、發放現金股利 $50,000，無增資。請推算 2021 與 2022 年底之保留盈餘！
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+            <label class="block text-xs font-bold text-slate-700">1. Retained Earnings at Dec 31, 2021 ($)</label>
+            <input type="number" id="ans-e212-re21" placeholder="2021/12/31 保留盈餘..." class="w-full bg-white border border-slate-300 rounded p-2 text-xs font-mono font-bold" />
+            <div id="fb-e212-re21" class="hidden text-xs font-bold"></div>
+          </div>
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+            <label class="block text-xs font-bold text-slate-700">2. Retained Earnings at Dec 31, 2022 ($)</label>
+            <input type="number" id="ans-e212-re22" placeholder="2022/12/31 保留盈餘..." class="w-full bg-white border border-slate-300 rounded p-2 text-xs font-mono font-bold" />
+            <div id="fb-e212-re22" class="hidden text-xs font-bold"></div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
+          <button onclick="window.gradeE212()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md transition">
+            核對答案 (Check E2-12)
+          </button>
+          <button onclick="window.revealE212()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+            顯示推導步驟
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 7: E2-14 Articulation Relationships                  -->
+    <!-- ======================================================== -->
+    <section id="tab-e214" class="ch2-section hidden space-y-4">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="border-b border-slate-200 pb-4 mb-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-xs">Exercises 2-14 (高頻考題)</span>
+            <h2 class="text-lg font-black text-slate-900">資產負債表與損益表之勾稽連動 (Financial Statement Articulation)</h2>
+          </div>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+            <strong>Omni Company 數據：</strong><br/>
+            • 1月1日：資產 $103,000，負債 $72,000 ➔ 期初權益 = $31,000<br/>
+            • 12月31日：資產 $167,000，負債 $88,000 ➔ 期末權益 = $79,000<br/>
+            • 全年權益淨增加 = $79,000 - $31,000 = $48,000！請在以下三種獨立情況下計算 2022 年之「淨利 (Net Income)」：
+          </p>
+        </div>
+
+        <div class="space-y-4 my-6">
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+            <div>
+              <span class="font-bold text-slate-800">情況 1：發放現金股利 $12,100，無增資發行股票。</span>
+              <p class="text-slate-500 text-[11px]">權益增量 $48,000 = 淨利 - 股利 $12,100</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <input type="number" id="ans-e214-1" placeholder="淨利 $" class="w-32 bg-white border border-slate-300 rounded p-1.5 font-bold font-mono text-right" />
+              <span id="fb-e214-1" class="font-bold"></span>
+            </div>
+          </div>
+
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+            <div>
+              <span class="font-bold text-slate-800">情況 2：增資發行股票 $18,000，無發放股利。</span>
+              <p class="text-slate-500 text-[11px]">權益增量 $48,000 = 增資 $18,000 + 淨利</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <input type="number" id="ans-e214-2" placeholder="淨利 $" class="w-32 bg-white border border-slate-300 rounded p-1.5 font-bold font-mono text-right" />
+              <span id="fb-e214-2" class="font-bold"></span>
+            </div>
+          </div>
+
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+            <div>
+              <span class="font-bold text-slate-800">情況 3：增資發行股票 $72,000，且發放股利 $12,400。</span>
+              <p class="text-slate-500 text-[11px]">權益增量 $48,000 = 增資 $72,000 - 股利 $12,400 + 淨利 (若為淨損請填負數)</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <input type="number" id="ans-e214-3" placeholder="淨利或淨損 $" class="w-32 bg-white border border-slate-300 rounded p-1.5 font-bold font-mono text-right" />
+              <span id="fb-e214-3" class="font-bold"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
+          <button onclick="window.gradeE214()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md transition">
+            核對答案 (Check E2-14)
+          </button>
+          <button onclick="window.revealE214()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+            顯示勾稽推導正解
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 8: P2-1 Classified Balance Sheet                     -->
+    <!-- ======================================================== -->
+    <section id="tab-p21" class="ch2-section hidden space-y-4">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="border-b border-slate-200 pb-4 mb-4 flex flex-col md:flex-row md:items-center justify-between gap-2">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2.5 py-0.5 bg-rose-100 text-rose-800 rounded font-bold text-xs">Problem 2-1 (期中高分必考)</span>
+              <h2 class="text-lg font-black text-slate-900">Stoker Co. 分類資產負債表要素計算 (Classified Balance Sheet)</h2>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">
+              課本必考手寫大題：請將科目區分為「流動」與「非流動」，並計算出缺漏的現金與五大分類總額。
+            </p>
+          </div>
+        </div>
+
+        <!-- Problem 2-1 Data List -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs font-mono grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6">
+          <div>Land: $312,000</div>
+          <div>Buildings: $337,500</div>
+          <div>Equipment: $322,500</div>
+          <div>Accounts Receivable: $178,500</div>
+          <div>Accounts Payable: $151,500</div>
+          <div>Notes Payable (short-term): $147,000</div>
+          <div>Mortgage Payable: $379,500</div>
+          <div>Capital Stock: $300,000</div>
+          <div>Retained Earnings: $279,000</div>
+          <div class="text-rose-700 font-bold col-span-2 sm:col-span-3">Cash: ? (需透過資產負債恆等式倒推求得)</div>
+        </div>
+
+        <!-- Input Workstation -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="p-3.5 bg-white border border-slate-300 rounded-xl space-y-1">
+            <label class="block text-xs font-bold text-slate-700">1. 流動資產 (Current Assets $)</label>
+            <p class="text-[10px] text-slate-400">Cash (?) + Accounts Receivable</p>
+            <input type="number" id="ans-p21-ca" placeholder="流動資產總和..." class="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs font-mono font-bold" />
+            <div id="fb-p21-ca" class="hidden text-[11px] font-bold"></div>
+          </div>
+
+          <div class="p-3.5 bg-white border border-slate-300 rounded-xl space-y-1">
+            <label class="block text-xs font-bold text-slate-700">2. 非流動資產 (Non-current Assets $)</label>
+            <p class="text-[10px] text-slate-400">Land + Buildings + Equipment</p>
+            <input type="number" id="ans-p21-nca" placeholder="非流動資產總和..." class="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs font-mono font-bold" />
+            <div id="fb-p21-nca" class="hidden text-[11px] font-bold"></div>
+          </div>
+
+          <div class="p-3.5 bg-white border border-slate-300 rounded-xl space-y-1">
+            <label class="block text-xs font-bold text-slate-700">3. 流動負債 (Current Liabilities $)</label>
+            <p class="text-[10px] text-slate-400">Accounts Payable + Short-term Notes</p>
+            <input type="number" id="ans-p21-cl" placeholder="流動負債總和..." class="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs font-mono font-bold" />
+            <div id="fb-p21-cl" class="hidden text-[11px] font-bold"></div>
+          </div>
+
+          <div class="p-3.5 bg-white border border-slate-300 rounded-xl space-y-1">
+            <label class="block text-xs font-bold text-slate-700">4. 非流動負債 (Non-current Liab $)</label>
+            <p class="text-[10px] text-slate-400">Mortgage Payable (長期抵押貸款)</p>
+            <input type="number" id="ans-p21-ncl" placeholder="非流動負債總和..." class="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs font-mono font-bold" />
+            <div id="fb-p21-ncl" class="hidden text-[11px] font-bold"></div>
+          </div>
+
+          <div class="p-3.5 bg-white border border-slate-300 rounded-xl space-y-1">
+            <label class="block text-xs font-bold text-slate-700">5. 權益總額 (Total Equity $)</label>
+            <p class="text-[10px] text-slate-400">Capital Stock + Retained Earnings</p>
+            <input type="number" id="ans-p21-eq" placeholder="權益總額..." class="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs font-mono font-bold" />
+            <div id="fb-p21-eq" class="hidden text-[11px] font-bold"></div>
+          </div>
+
+          <div class="p-3.5 bg-amber-50 border border-amber-300 rounded-xl space-y-1">
+            <label class="block text-xs font-bold text-amber-900">★ 倒推現金餘額 (Cash Balance $)</label>
+            <p class="text-[10px] text-amber-700">總負債 + 總權益 - 其他已知資產</p>
+            <input type="number" id="ans-p21-cash" placeholder="Cash 餘額..." class="w-full bg-white border border-amber-400 rounded p-2 text-xs font-mono font-bold text-amber-900" />
+            <div id="fb-p21-cash" class="hidden text-[11px] font-bold"></div>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between">
+          <button onclick="window.gradeP21()" class="px-6 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs shadow-md transition">
+            核對 P2-1 答案 (Check P2-1)
+          </button>
+          <button onclick="window.revealP21()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+            顯示完整分類答案與倒推步驟
+          </button>
+        </div>
+
+        <div id="detail-p21" class="hidden mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2 leading-relaxed">
+          <div class="font-bold text-slate-900">【P2-1 滿分作答解析】</div>
+          <p>• <strong>非流動資產</strong> = 312,000 (Land) + 337,500 (Buildings) + 322,500 (Equipment) = <strong>$972,000</strong></p>
+          <p>• <strong>流動負債</strong> = 151,500 (A/P) + 147,000 (Short-term Note) = <strong>$298,500</strong></p>
+          <p>• <strong>非流動負債</strong> = <strong>$379,500</strong> (Mortgage Payable)</p>
+          <p>• <strong>權益總計</strong> = 300,000 (Capital Stock) + 279,000 (Retained Earnings) = <strong>$579,000</strong></p>
+          <p>• <strong>總負債與權益</strong> = 298,500 + 379,500 + 579,000 = <strong>$1,257,000</strong>（等於總資產）</p>
+          <p>• <strong>倒推現金 (Cash)</strong> = $1,257,000 - $972,000 - $178,500 (A/R) = <strong>$106,500</strong></p>
+          <p>• <strong>流動資產</strong> = 106,500 (Cash) + 178,500 (A/R) = <strong>$285,000</strong></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FORMULA FLOATING MODAL FOR CH2 -->
+  <div id="ch2-formula-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-slate-900 flex items-center space-x-2">
+          <i class="ph-bold ph-book-open text-emerald-600 text-xl"></i>
+          <span>Chapter 2 財務報表四大核心勾稽公式</span>
+        </h3>
+        <button onclick="window.closeCh2FormulaModal()" class="text-slate-400 hover:text-slate-600">
+          <i class="ph-bold ph-x text-lg"></i>
+        </button>
+      </div>
+
+      <div class="text-xs space-y-3 leading-relaxed text-slate-700">
+        <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+          <span class="font-bold text-emerald-950 block mb-1">1. 資產負債表恆等式 (Balance Sheet Equation)</span>
+          <p>$$\text{Total Assets} = \text{Total Liabilities} + \text{Total Equity}$$</p>
+          <p class="text-[11px] text-emerald-800">流動資產 + 非流動資產 = 流動負債 + 非流動負債 + 股本 + 保留盈餘</p>
+        </div>
+
+        <div class="p-3 bg-indigo-50 rounded-xl border border-indigo-200">
+          <span class="font-bold text-indigo-950 block mb-1">2. 保留盈餘變動方程式 (Retained Earnings Articulation)</span>
+          <p>$$\text{Ending R/E} = \text{Beginning R/E} + \text{Net Income} - \text{Dividends}$$</p>
+        </div>
+
+        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200">
+          <span class="font-bold text-amber-950 block mb-1">3. 綜合損益表與每股盈餘 (Comprehensive Income & EPS)</span>
+          <p>$$\text{Net Income} = \text{Revenues} - \text{Expenses} - \text{Income Tax}$$</p>
+          <p>$$\text{EPS} = \frac{\text{Net Income}}{\text{Weighted Average Common Shares}}$$</p>
+        </div>
+      </div>
+
+      <button onclick="window.closeCh2FormulaModal()" class="w-full py-2.5 bg-slate-900 text-white font-bold rounded-xl text-xs hover:bg-slate-800 transition">
+        關閉公式卡 (Close)
+      </button>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT CONTROLLERS -->
+  <script>
+    // Global Toast Notification (Zero native alerts)
+    window.showToast = function(title, msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      let bg = "bg-slate-900 text-white border-slate-700";
+      let icon = "ph-info";
+      if (type === 'success') {
+        bg = "bg-emerald-900 text-emerald-100 border-emerald-700";
+        icon = "ph-check-circle";
+      } else if (type === 'error') {
+        bg = "bg-rose-900 text-rose-100 border-rose-700";
+        icon = "ph-warning-circle";
+      } else if (type === 'warning') {
+        bg = "bg-amber-900 text-amber-100 border-amber-700";
+        icon = "ph-warning";
+      }
+
+      toast.className = `p-3.5 rounded-xl border shadow-xl flex items-start space-x-2 text-xs pointer-events-auto transform transition-all duration-300 max-w-sm ${bg}`;
+      toast.innerHTML = `
+        <i class="ph-bold ${icon} text-lg shrink-0 mt-0.5"></i>
+        <div class="flex-1">
+          <div class="font-bold">${title}</div>
+          <div class="text-[11px] opacity-90 mt-0.5 leading-snug">${msg}</div>
+        </div>
+      `;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-8px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    };
+
+    // Modal
+    window.openCh2FormulaModal = function() {
+      document.getElementById('ch2-formula-modal').classList.remove('hidden');
+    };
+    window.closeCh2FormulaModal = function() {
+      document.getElementById('ch2-formula-modal').classList.add('hidden');
+    };
+
+    // Tab Switcher
+    window.switchCh2Tab = function(tabId) {
+      document.querySelectorAll('.ch2-section').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-tab').forEach(b => {
+        b.classList.remove('text-amber-300', 'bg-emerald-950');
+        b.classList.add('text-emerald-200');
+      });
+
+      const target = document.getElementById(tabId);
+      if (target) target.classList.remove('hidden');
+
+      const activeBtn = document.querySelector(`.nav-tab[data-target="${tabId}"]`);
+      if (activeBtn) {
+        activeBtn.classList.add('text-amber-300', 'bg-emerald-950');
+        activeBtn.classList.remove('text-emerald-200');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // Reset All
+    window.resetAllCh2Questions = function() {
+      if (confirm("確定要清空第二章所有已作答的欄位與自訂數據嗎？")) {
+        initE22();
+        initE23();
+        initE24();
+        initE25();
+        initE29();
+        initE212();
+        initE214();
+        initP21();
+        window.showToast("已重置", "第二章所有題組已恢復純空白作答狀態。", "info");
+      }
+    };
+
+    // ==========================================
+    // 1. LOGIC: E2-2
+    // ==========================================
+    function initE22() {
+      document.getElementById('ans-e22-best-land').value = '';
+      document.getElementById('ans-e22-johnson-ap').value = '';
+      document.getElementById('ans-e22-coury-eq').value = '';
+      document.getElementById('val-e22-best-ta').innerText = '-';
+      document.getElementById('e22-feedback').classList.add('hidden');
+      document.getElementById('detail-e22').classList.add('hidden');
+    }
+
+    window.gradeE22 = function() {
+      const ap = parseFloat(document.getElementById('ans-e22-johnson-ap').value) || 0;
+      const land = parseFloat(document.getElementById('ans-e22-best-land').value) || 0;
+      const eq = parseFloat(document.getElementById('ans-e22-coury-eq').value) || 0;
+
+      const fb = document.getElementById('e22-feedback');
+      fb.classList.remove('hidden');
+
+      const isApOk = (ap === 6000);
+      const isLandOk = (land === 20200);
+      const isEqOk = (eq === 21500);
+
+      if (land > 0) {
+        document.getElementById('val-e22-best-ta').innerText = `$${(5800 + 11000 + land).toLocaleString()}`;
+      }
+
+      if (isApOk && isLandOk && isEqOk) {
+        fb.className = "p-3 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800";
+        fb.innerHTML = "✓ 全部完全正確！Johnson A/P = $6,000 | Best Land = $20,200 | Coury Equity = $21,500！";
+        window.showToast("E2-2 正確", "三家公司會計恆等式推算無誤！", "success");
+      } else {
+        fb.className = "p-3 rounded-xl text-xs font-bold bg-rose-100 text-rose-800";
+        fb.innerHTML = `✕ 答案有誤。正確應為：Johnson A/P = $6,000；Best Land = $20,200；Coury Equity = $21,500。`;
+        window.showToast("計算有誤", "請確認資產合計是否等於負債加權益！", "warning");
+      }
+    };
+
+    window.revealE22 = function() {
+      document.getElementById('ans-e22-johnson-ap').value = 6000;
+      document.getElementById('ans-e22-best-land').value = 20200;
+      document.getElementById('ans-e22-coury-eq').value = 21500;
+      document.getElementById('val-e22-best-ta').innerText = "$37,000";
+      document.getElementById('detail-e22').classList.remove('hidden');
+      window.showToast("正解帶入", "已載入 E2-2 正確金額與推導過程。", "info");
+    };
+
+    // ==========================================
+    // 2. LOGIC: E2-3
+    // ==========================================
+    const E23_DATA = [
+      {
+        id: 1,
+        desc: "1. 向 TSM 公司賒購電腦終端機 $20,000。(Purchased computer terminals on account)",
+        ans: "c",
+        expl: "電腦(資產)增加，應付帳款(負債)增加 ➔ (c) Increase assets, increase liabilities"
+      },
+      {
+        id: 2,
+        desc: "2. 支付現金 $11,000 給電力公司作為 5 月電費。(Paid cash for May energy usage)",
+        ans: "d",
+        expl: "現金(資產)減少，水電費用使權益減少 ➔ (d) Decrease assets, decrease equity"
+      },
+      {
+        id: 3,
+        desc: "3. 收到客戶繳來 4 月份請款之現金 $14,000。(Received cash for contracts billed in April)",
+        ans: "a",
+        expl: "現金(資產)增加，應收帳款(資產)減少 ➔ (a) Increase assets, decrease assets"
+      },
+      {
+        id: 4,
+        desc: "4. 股東對公司追加投資 $32,000 現金。(Shareholders invested an additional $32,000)",
+        ans: "b",
+        expl: "現金(資產)增加，股本(權益)增加 ➔ (b) Increase assets, increase equity"
+      },
+      {
+        id: 5,
+        desc: "5. 支付現金 $3,000 作為 5 月份倉庫租金。(Paid cash for May rent on storage space)",
+        ans: "d",
+        expl: "現金(資產)減少，租金費用使權益減少 ➔ (d) Decrease assets, decrease equity"
+      },
+      {
+        id: 6,
+        desc: "6. 為客戶提供電腦維護服務，現收現金 $2,400。(Performed computer services for cash)",
+        ans: "b",
+        expl: "現金(資產)增加，服務收入使權益增加 ➔ (b) Increase assets, increase equity"
+      },
+      {
+        id: 7,
+        desc: "7. 支付現金清償第 (1) 筆購買終端機的欠款。(Paid TSM Company for terminals in 1)",
+        ans: "e",
+        expl: "應付帳款(負債)減少，現金(資產)減少 ➔ (e) Decrease assets, decrease liabilities"
+      },
+      {
+        id: 8,
+        desc: "8. 發生 5 月份廣告費 $1,100，款項暫賒。(Incurred advertising expense on account)",
+        ans: "f",
+        expl: "應付帳款(負債)增加，廣告費用使權益減少 ➔ (f) Increase liabilities, decrease equity"
+      }
+    ];
+
+    function initE23() {
+      const container = document.getElementById('e23-list');
+      container.innerHTML = '';
+      E23_DATA.forEach(item => {
+        const div = document.createElement('div');
+        div.className = "p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs space-y-2";
+        div.innerHTML = `
+          <div class="font-bold text-slate-800">${item.desc}</div>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <select id="e23-sel-${item.id}" class="bg-white border border-slate-300 rounded p-1.5 font-bold text-xs focus:ring-1 focus:ring-emerald-500">
+              <option value="">-- 選擇恆等式變化代號 (a ~ g) --</option>
+              <option value="a">(a) 一資產增加，另一資產減少 (Increase A, decrease A)</option>
+              <option value="b">(b) 資產增加，權益增加 (Increase A, increase E)</option>
+              <option value="c">(c) 資產增加，負債增加 (Increase A, increase L)</option>
+              <option value="d">(d) 資產減少，權益減少 (Decrease A, decrease E)</option>
+              <option value="e">(e) 資產減少，負債減少 (Decrease A, decrease L)</option>
+              <option value="f">(f) 負債增加，權益減少 (Increase L, decrease E)</option>
+              <option value="g">(g) 權益增加，負債減少 (Increase E, decrease L)</option>
+            </select>
+            <div id="e23-expl-${item.id}" class="hidden text-[11px] text-emerald-800 font-semibold"></div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    window.gradeE23 = function() {
+      let correct = 0;
+      E23_DATA.forEach(item => {
+        const sel = document.getElementById(`e23-sel-${item.id}`);
+        const expl = document.getElementById(`e23-expl-${item.id}`);
+        expl.innerText = item.expl;
+        expl.classList.remove('hidden');
+
+        if (sel.value === item.ans) {
+          sel.className = "bg-emerald-50 border border-emerald-400 text-emerald-800 rounded p-1.5 font-bold text-xs";
+          correct++;
+        } else {
+          sel.className = "bg-rose-50 border border-rose-400 text-rose-800 rounded p-1.5 font-bold text-xs";
+        }
+      });
+      window.showToast("E2-3 批改完畢", `答對 ${correct} / 8 題。`, correct === 8 ? 'success' : 'warning');
+    };
+
+    window.revealE23 = function() {
+      E23_DATA.forEach(item => {
+        const sel = document.getElementById(`e23-sel-${item.id}`);
+        const expl = document.getElementById(`e23-expl-${item.id}`);
+        sel.value = item.ans;
+        sel.className = "bg-amber-50 border border-amber-400 text-amber-900 rounded p-1.5 font-bold text-xs";
+        expl.innerText = item.expl;
+        expl.classList.remove('hidden');
+      });
+      window.showToast("正解已載入", "已載入 E2-3 恆等式變動全解答與會計理由。", "info");
+    };
+
+    // ==========================================
+    // 3. LOGIC: E2-4
+    // ==========================================
+    function initE24() {
+      ['davis-eq1', 'davis-eq2', 'davis-l2', 'conaton-a1', 'conaton-rev', 'conaton-a2', 'seipke-l1', 'seipke-eq2', 'seipke-exp'].forEach(id => {
+        document.getElementById(`ans-e24-${id}`).value = '';
+      });
+      document.getElementById('e24-feedback').classList.add('hidden');
+    }
+
+    window.gradeE24 = function() {
+      const d_eq1 = parseFloat(document.getElementById('ans-e24-davis-eq1').value);
+      const d_eq2 = parseFloat(document.getElementById('ans-e24-davis-eq2').value);
+      const d_l2 = parseFloat(document.getElementById('ans-e24-davis-l2').value);
+
+      const c_a1 = parseFloat(document.getElementById('ans-e24-conaton-a1').value);
+      const c_rev = parseFloat(document.getElementById('ans-e24-conaton-rev').value);
+      const c_a2 = parseFloat(document.getElementById('ans-e24-conaton-a2').value);
+
+      const s_l1 = parseFloat(document.getElementById('ans-e24-seipke-l1').value);
+      const s_eq2 = parseFloat(document.getElementById('ans-e24-seipke-eq2').value);
+      const s_exp = parseFloat(document.getElementById('ans-e24-seipke-exp').value);
+
+      let ok = (d_eq1 === 80 && d_eq2 === 60 && d_l2 === 320 &&
+                c_a1 === 1080 && c_rev === 216 && c_a2 === 1240 &&
+                s_l1 === 80 && s_eq2 === 220 && s_exp === 330);
+
+      const fb = document.getElementById('e24-feedback');
+      fb.classList.remove('hidden');
+      if (ok) {
+        fb.className = "p-3 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800";
+        fb.innerHTML = "✓ 全部 9 個空位計算完全正確！公式熟練度 100%！";
+        window.showToast("E2-4 完全正確", "三家跨期恆等式與損益連動皆正解！", "success");
+      } else {
+        fb.className = "p-3 rounded-xl text-xs font-bold bg-rose-100 text-rose-800";
+        fb.innerHTML = "✕ 答案有部分錯誤。請點選右下角按鈕對照公式推導。";
+        window.showToast("請再檢查", "注意：Ending Equity = Beginning Equity + Revenues - Expenses！", "warning");
+      }
+    };
+
+    window.revealE24 = function() {
+      document.getElementById('ans-e24-davis-eq1').value = 80;
+      document.getElementById('ans-e24-davis-eq2').value = 60;
+      document.getElementById('ans-e24-davis-l2').value = 320;
+
+      document.getElementById('ans-e24-conaton-a1').value = 1080;
+      document.getElementById('ans-e24-conaton-rev').value = 216;
+      document.getElementById('ans-e24-conaton-a2').value = 1240;
+
+      document.getElementById('ans-e24-seipke-l1').value = 80;
+      document.getElementById('ans-e24-seipke-eq2').value = 220;
+      document.getElementById('ans-e24-seipke-exp').value = 330;
+      window.showToast("正解填入", "已自動帶入 E2-4 數值。", "info");
+    };
+
+    // ==========================================
+    // 4. LOGIC: E2-5
+    // ==========================================
+    function initE25() {
+      document.getElementById('ans-e25-re').value = '';
+      document.getElementById('ans-e25-rev').value = '';
+      document.getElementById('fb-e25-re').classList.add('hidden');
+      document.getElementById('fb-e25-rev').classList.add('hidden');
+      document.getElementById('detail-e25').classList.add('hidden');
+    }
+
+    window.gradeE25 = function() {
+      const re = parseFloat(document.getElementById('ans-e25-re').value);
+      const rev = parseFloat(document.getElementById('ans-e25-rev').value);
+
+      const fRe = document.getElementById('fb-e25-re');
+      const fRev = document.getElementById('fb-e25-rev');
+      fRe.classList.remove('hidden');
+      fRev.classList.remove('hidden');
+
+      let allOk = true;
+      if (re === 70000) {
+        fRe.className = "text-xs font-bold text-emerald-600";
+        fRe.innerText = "✓ 正確！$70,000";
+      } else {
+        fRe.className = "text-xs font-bold text-rose-600";
+        fRe.innerText = "✕ 錯誤，應為 $70,000";
+        allOk = false;
+      }
+
+      if (rev === 74000) {
+        fRev.className = "text-xs font-bold text-emerald-600";
+        fRev.innerText = "✓ 正確！$74,000";
+      } else {
+        fRev.className = "text-xs font-bold text-rose-600";
+        fRev.innerText = "✕ 錯誤，應為 $74,000";
+        allOk = false;
+      }
+
+      window.showToast("E2-5 批改", allOk ? "兩題倒推計算完全正確！" : "計算有誤，請參考紅字修正。", allOk ? 'success' : 'warning');
+    };
+
+    window.revealE25 = function() {
+      document.getElementById('ans-e25-re').value = 70000;
+      document.getElementById('ans-e25-rev').value = 74000;
+      document.getElementById('detail-e25').classList.remove('hidden');
+      window.showToast("正解載入", "已載入 E2-5 答案與推算過程。", "info");
+    };
+
+    // ==========================================
+    // 5. LOGIC: E2-9
+    // ==========================================
+    function initE29() {
+      ['ebt', 'tax', 'ni', 'eps'].forEach(id => {
+        document.getElementById(`ans-e29-${id}`).value = '';
+        document.getElementById(`fb-e29-${id}`).classList.add('hidden');
+      });
+    }
+
+    window.gradeE29 = function() {
+      const ebt = parseFloat(document.getElementById('ans-e29-ebt').value);
+      const tax = parseFloat(document.getElementById('ans-e29-tax').value);
+      const ni = parseFloat(document.getElementById('ans-e29-ni').value);
+      const eps = parseFloat(document.getElementById('ans-e29-eps').value);
+
+      // Total expense = 95000 + 120000 + 10000 + 16000 = 241000.
+      // EBT = 335000 - 241000 = 94000.
+      // Tax = 94000 * 30% = 28200.
+      // NI = 94000 - 28200 = 65800.
+      // EPS = 65800 / 25000 = 2.632 or 2.63.
+      const isEbt = (ebt === 94000);
+      const isTax = (tax === 28200);
+      const isNi = (ni === 65800);
+      const isEps = (Math.abs(eps - 2.63) < 0.01 || Math.abs(eps - 2.632) < 0.001);
+
+      ['ebt', 'tax', 'ni', 'eps'].forEach(id => document.getElementById(`fb-e29-${id}`).classList.remove('hidden'));
+
+      document.getElementById('fb-e29-ebt').innerText = isEbt ? "✓ 正確！$94,000" : "✕ 應為 $94,000";
+      document.getElementById('fb-e29-ebt').className = isEbt ? "text-[11px] font-bold mt-1 text-emerald-600" : "text-[11px] font-bold mt-1 text-rose-600";
+
+      document.getElementById('fb-e29-tax').innerText = isTax ? "✓ 正確！$28,200" : "✕ 應為 $28,200";
+      document.getElementById('fb-e29-tax').className = isTax ? "text-[11px] font-bold mt-1 text-emerald-600" : "text-[11px] font-bold mt-1 text-rose-600";
+
+      document.getElementById('fb-e29-ni').innerText = isNi ? "✓ 正確！$65,800" : "✕ 應為 $65,800";
+      document.getElementById('fb-e29-ni').className = isNi ? "text-[11px] font-bold mt-1 text-emerald-600" : "text-[11px] font-bold mt-1 text-rose-600";
+
+      document.getElementById('fb-e29-eps').innerText = isEps ? "✓ 正確！$2.63" : "✕ 應為 $2.63";
+      document.getElementById('fb-e29-eps').className = isEps ? "text-[11px] font-bold mt-1 text-emerald-600" : "text-[11px] font-bold mt-1 text-rose-600";
+
+      const ok = isEbt && isTax && isNi && isEps;
+      window.showToast("E2-9 損益表批改", ok ? "損益表四大指標與每股盈餘全部命中！" : "部分數字有誤，請對照紅字修正。", ok ? 'success' : 'warning');
+    };
+
+    window.revealE29 = function() {
+      document.getElementById('ans-e29-ebt').value = 94000;
+      document.getElementById('ans-e29-tax').value = 28200;
+      document.getElementById('ans-e29-ni').value = 65800;
+      document.getElementById('ans-e29-eps').value = 2.63;
+      window.showToast("已帶入正解", "E2-9 損益表標準答案已填入。", "info");
+    };
+
+    // ==========================================
+    // 6. LOGIC: E2-12
+    // ==========================================
+    function initE212() {
+      document.getElementById('ans-e212-re21').value = '';
+      document.getElementById('ans-e212-re22').value = '';
+      document.getElementById('fb-e212-re21').classList.add('hidden');
+      document.getElementById('fb-e212-re22').classList.add('hidden');
+    }
+
+    window.gradeE212 = function() {
+      const re21 = parseFloat(document.getElementById('ans-e212-re21').value);
+      const re22 = parseFloat(document.getElementById('ans-e212-re22').value);
+
+      // 2021: Assets 700k = Liab 210k + CS 320k + RE -> RE2021 = 170,000.
+      // 2022: NI = 520k - 390k = 130k. RE2022 = 170k + 130k - 50k = 250,000.
+      const is21Ok = (re21 === 170000);
+      const is22Ok = (re22 === 250000);
+
+      const f21 = document.getElementById('fb-e212-re21');
+      const f22 = document.getElementById('fb-e212-re22');
+      f21.classList.remove('hidden');
+      f22.classList.remove('hidden');
+
+      f21.className = is21Ok ? "text-xs font-bold text-emerald-600" : "text-xs font-bold text-rose-600";
+      f21.innerText = is21Ok ? "✓ 正確！$170,000" : "✕ 應為 $170,000";
+
+      f22.className = is22Ok ? "text-xs font-bold text-emerald-600" : "text-xs font-bold text-rose-600";
+      f22.innerText = is22Ok ? "✓ 正確！$250,000" : "✕ 應為 $250,000";
+
+      const ok = is21Ok && is22Ok;
+      window.showToast("E2-12 批改", ok ? "跨年度保留盈餘倒推完全正確！" : "答案有誤，請再核算一次！", ok ? 'success' : 'warning');
+    };
+
+    window.revealE212 = function() {
+      document.getElementById('ans-e212-re21').value = 170000;
+      document.getElementById('ans-e212-re22').value = 250000;
+      window.showToast("正解填入", "2021: $170,000 | 2022: $250,000 已填入。", "info");
+    };
+
+    // ==========================================
+    // 7. LOGIC: E2-14
+    // ==========================================
+    function initE214() {
+      ['1', '2', '3'].forEach(i => {
+        document.getElementById(`ans-e214-${i}`).value = '';
+        document.getElementById(`fb-e214-${i}`).innerText = '';
+      });
+    }
+
+    window.gradeE214 = function() {
+      // Equity change = 48000.
+      // Case 1: 48,000 = NI - 12,100 -> NI = 60,100.
+      // Case 2: 48,000 = 18,000 + NI -> NI = 30,000.
+      // Case 3: 48,000 = 72,000 - 12,400 + NI = 59,600 + NI -> NI = -11,600 (Net Loss).
+      const v1 = parseFloat(document.getElementById('ans-e214-1').value);
+      const v2 = parseFloat(document.getElementById('ans-e214-2').value);
+      const v3 = parseFloat(document.getElementById('ans-e214-3').value);
+
+      const is1 = (v1 === 60100);
+      const is2 = (v2 === 30000);
+      const is3 = (v3 === -11600);
+
+      document.getElementById('fb-e214-1').innerText = is1 ? "✓ $60,100" : "✕ $60,100";
+      document.getElementById('fb-e214-1').className = is1 ? "font-bold text-emerald-600" : "font-bold text-rose-600";
+
+      document.getElementById('fb-e214-2').innerText = is2 ? "✓ $30,000" : "✕ $30,000";
+      document.getElementById('fb-e214-2').className = is2 ? "font-bold text-emerald-600" : "font-bold text-rose-600";
+
+      document.getElementById('fb-e214-3').innerText = is3 ? "✓ -$11,600 (淨損)" : "✕ -$11,600 (淨損)";
+      document.getElementById('fb-e214-3').className = is3 ? "font-bold text-emerald-600" : "font-bold text-rose-600";
+
+      const ok = is1 && is2 && is3;
+      window.showToast("E2-14 批改", ok ? "三種勾稽獨立情況全部正確！特別注意第3小題為淨損！" : "部分有誤，請注意正負號與股利扣除！", ok ? 'success' : 'warning');
+    };
+
+    window.revealE214 = function() {
+      document.getElementById('ans-e214-1').value = 60100;
+      document.getElementById('ans-e214-2').value = 30000;
+      document.getElementById('ans-e214-3').value = -11600;
+      window.showToast("正解填入", "已載入 E2-14 三情況標準淨利/淨損值。", "info");
+    };
+
+    // ==========================================
+    // 8. LOGIC: P2-1 (Stoker Co.)
+    // ==========================================
+    function initP21() {
+      ['ca', 'nca', 'cl', 'ncl', 'eq', 'cash'].forEach(id => {
+        document.getElementById(`ans-p21-${id}`).value = '';
+        document.getElementById(`fb-p21-${id}`).classList.add('hidden');
+      });
+      document.getElementById('detail-p21').classList.add('hidden');
+    }
+
+    window.gradeP21 = function() {
+      const ca = parseFloat(document.getElementById('ans-p21-ca').value);
+      const nca = parseFloat(document.getElementById('ans-p21-nca').value);
+      const cl = parseFloat(document.getElementById('ans-p21-cl').value);
+      const ncl = parseFloat(document.getElementById('ans-p21-ncl').value);
+      const eq = parseFloat(document.getElementById('ans-p21-eq').value);
+      const cash = parseFloat(document.getElementById('ans-p21-cash').value);
+
+      const isCa = (ca === 285000);
+      const isNca = (nca === 972000);
+      const isCl = (cl === 298500);
+      const isNcl = (ncl === 379500);
+      const isEq = (eq === 579000);
+      const isCash = (cash === 106500);
+
+      ['ca', 'nca', 'cl', 'ncl', 'eq', 'cash'].forEach(id => document.getElementById(`fb-p21-${id}`).classList.remove('hidden'));
+
+      document.getElementById('fb-p21-ca').innerText = isCa ? "✓ 正確！$285,000" : "✕ 應為 $285,000";
+      document.getElementById('fb-p21-ca').className = isCa ? "text-[11px] font-bold text-emerald-600" : "text-[11px] font-bold text-rose-600";
+
+      document.getElementById('fb-p21-nca').innerText = isNca ? "✓ 正確！$972,000" : "✕ 應為 $972,000";
+      document.getElementById('fb-p21-nca').className = isNca ? "text-[11px] font-bold text-emerald-600" : "text-[11px] font-bold text-rose-600";
+
+      document.getElementById('fb-p21-cl').innerText = isCl ? "✓ 正確！$298,500" : "✕ 應為 $298,500";
+      document.getElementById('fb-p21-cl').className = isCl ? "text-[11px] font-bold text-emerald-600" : "text-[11px] font-bold text-rose-600";
+
+      document.getElementById('fb-p21-ncl').innerText = isNcl ? "✓ 正確！$379,500" : "✕ 應為 $379,500";
+      document.getElementById('fb-p21-ncl').className = isNcl ? "text-[11px] font-bold text-emerald-600" : "text-[11px] font-bold text-rose-600";
+
+      document.getElementById('fb-p21-eq').innerText = isEq ? "✓ 正確！$579,000" : "✕ 應為 $579,000";
+      document.getElementById('fb-p21-eq').className = isEq ? "text-[11px] font-bold text-emerald-600" : "text-[11px] font-bold text-rose-600";
+
+      document.getElementById('fb-p21-cash').innerText = isCash ? "✓ 正確！$106,500" : "✕ 應為 $106,500";
+      document.getElementById('fb-p21-cash').className = isCash ? "text-[11px] font-bold text-emerald-600" : "text-[11px] font-bold text-rose-600";
+
+      const ok = isCa && isNca && isCl && isNcl && isEq && isCash;
+      window.showToast("P2-1 大題批改", ok ? "太厲害了！分類資產負債表所有五大要素與現金倒推 100% 正確！" : "部分項目分類有誤，請檢視紅字標準答案。", ok ? 'success' : 'warning');
+    };
+
+    window.revealP21 = function() {
+      document.getElementById('ans-p21-ca').value = 285000;
+      document.getElementById('ans-p21-nca').value = 972000;
+      document.getElementById('ans-p21-cl').value = 298500;
+      document.getElementById('ans-p21-ncl').value = 379500;
+      document.getElementById('ans-p21-eq').value = 579000;
+      document.getElementById('ans-p21-cash').value = 106500;
+      document.getElementById('detail-p21').classList.remove('hidden');
+      window.showToast("正解填入", "已填入 P2-1 正確數值並展開分類報表詳解。", "info");
+    };
+
+    // INITIALIZATION ON LOAD
+    window.addEventListener('DOMContentLoaded', () => {
+      initE22();
+      initE23();
+      initE24();
+      initE25();
+      initE29();
+      initE212();
+      initE214();
+      initP21();
+      window.showToast("第二章系統載入", "已進入 Ch2 純空白實戰刷題系統！", "info");
+    });
+  </script>
+</body>
+</html>
